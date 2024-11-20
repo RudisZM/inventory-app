@@ -481,6 +481,31 @@ class GoodsController extends Controller
 
             return redirect()->back()->with('success', 'Success update image product.');
         }
+        if ($request->input('type') == 'goods_delete') {
+            $filePath = public_path('images/' . $getGoods->image);
+
+            if ($filesystem->exists($filePath)) {
+                if ($getGoods->image != 'no-image.png') {
+                    $filesystem->delete($filePath);
+                }
+            }
+            $getGoods->image = 'no-image.png';
+            $getGoods->is_imported = false;
+            $getGoods->update();
+            return redirect()->back()->with('success', 'Success update image product.');
+        } elseif ($request->input('type') == 'packaging_delete') {
+            $filePath = public_path('images/' . $getGoods->packaging_image);
+
+            if ($filesystem->exists($filePath)) {
+                if ($getGoods->packaging_image != 'no-image.png') {
+                    $filesystem->delete($filePath);
+                }
+            }
+            $getGoods->packaging_image = 'no-image.png';
+            $getGoods->is_imported = false;
+            $getGoods->update();
+            return redirect()->back()->with('success', 'Success update image product.');
+        }
         return redirect()->back()->with('failed', 'Failed update image product.');
     }
 
@@ -572,6 +597,18 @@ class GoodsController extends Controller
             $getTotalStockProduct = $getTotalStockProduct + request()->input('increase_stock');
             Goods::find($getPlacement->goods_id)->update([
                 'total_stock' => $getTotalStockProduct,
+            ]);
+
+            return redirect()->back()->with('success', 'Success update stock barang.');
+        }
+        if (request()->input('new_stock') == 0 && request()->input('increase_stock') == 0) {
+            $getTotalStockProduct = Goods::find($getPlacement->goods_id)->total_stock;
+            $getTotalStockProduct = $getTotalStockProduct - $getPlacement->stock;;
+            Goods::find($getPlacement->goods_id)->update([
+                'total_stock' => $getTotalStockProduct,
+            ]);
+            $getPlacement->update([
+                'stock' => 0,
             ]);
 
             return redirect()->back()->with('success', 'Success update stock barang.');
@@ -999,7 +1036,6 @@ class GoodsController extends Controller
 
         return redirect()->back()->with('success', 'Data imported successfully!');
     }
-
     public function exportExcel()
     {
         // Buat Spreadsheet baru

@@ -185,6 +185,25 @@
                                 </button>
                             </div>
                         </form>
+                        <div class="max-w-sm mx-auto mt-2">
+                            <form action="{{ route('goods.update.image', $goods->id) }}" method="post"
+                                onsubmit="return confirm('Apa Anda yakin ingin menghapus data ini? Data yang terhapus tidak dapat dikembalikan.')"
+                                class="w-full">
+                                @csrf
+                                <input type="text" value="goods_delete" name="type" class="hidden">
+                                <button type="submit"
+                                    class="flex items-center gap-x-3 py-2 px-3 bg-white rounded-lg w-full text-sm text-red-600 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300 dark:focus:bg-neutral-700 dark:focus:text-neutral-300">
+                                    <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                        fill="currentColor" viewBox="0 0 16 16">
+                                        <path
+                                            d="M5.884 6.68a.5.5 0 1 0-.768.64L7.349 10l-2.233 2.68a.5.5 0 0 0 .768.64L8 10.781l2.116 2.54a.5.5 0 0 0 .768-.641L8.651 10l2.233-2.68a.5.5 0 0 0-.768-.64L8 9.219l-2.116-2.54z" />
+                                        <path
+                                            d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z" />
+                                    </svg>
+                                    hapus gambar
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -231,6 +250,26 @@
                                 </button>
                             </div>
                         </form>
+
+                        <div class="max-w-sm mx-auto mt-2">
+                            <form action="{{ route('goods.update.image', $goods->id) }}" method="post"
+                                onsubmit="return confirm('Apa Anda yakin ingin menghapus data ini? Data yang terhapus tidak dapat dikembalikan.')"
+                                class="w-full">
+                                @csrf
+                                <input type="text" value="packaging_delete" name="type" class="hidden">
+                                <button type="submit"
+                                    class="flex items-center gap-x-3 py-2 px-3 bg-white rounded-lg w-full text-sm text-red-600 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300 dark:focus:bg-neutral-700 dark:focus:text-neutral-300">
+                                    <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                        fill="currentColor" viewBox="0 0 16 16">
+                                        <path
+                                            d="M5.884 6.68a.5.5 0 1 0-.768.64L7.349 10l-2.233 2.68a.5.5 0 0 0 .768.64L8 10.781l2.116 2.54a.5.5 0 0 0 .768-.641L8.651 10l2.233-2.68a.5.5 0 0 0-.768-.64L8 9.219l-2.116-2.54z" />
+                                        <path
+                                            d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z" />
+                                    </svg>
+                                    hapus gambar
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1210,25 +1249,25 @@
                                                     tabindex="-1" aria-label="Decrease"
                                                     data-hs-input-number-decrement="">
                                                     <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg"
-                                                        width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                        stroke-linejoin="round">
+                                                        width="24" height="24" viewBox="0 0 24 24"
+                                                        fill="none" stroke="currentColor" stroke-width="2"
+                                                        stroke-linecap="round" stroke-linejoin="round">
                                                         <path d="M5 12h14"></path>
                                                     </svg>
                                                 </button>
                                                 <input
                                                     class="p-0 w-16 bg-transparent border-0 text-gray-800 text-center focus:ring-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none dark:text-white"
-                                                    name="new_stock" style="-moz-appearance: textfield;" type="number"
-                                                    aria-roledescription="Number field" value="0"
+                                                    name="new_stock" style="-moz-appearance: textfield;"
+                                                    type="number" aria-roledescription="Number field" value="0"
                                                     data-hs-input-number-input="">
                                                 <button type="button"
                                                     class="size-6 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                                                     tabindex="-1" aria-label="Increase"
                                                     data-hs-input-number-increment="">
                                                     <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg"
-                                                        width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                        stroke-linejoin="round">
+                                                        width="24" height="24" viewBox="0 0 24 24"
+                                                        fill="none" stroke="currentColor" stroke-width="2"
+                                                        stroke-linecap="round" stroke-linejoin="round">
                                                         <path d="M5 12h14"></path>
                                                         <path d="M12 5v14"></path>
                                                     </svg>
