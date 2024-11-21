@@ -104,7 +104,7 @@
                         <div
                             class="py-2 md:py-0 flex flex-col md:flex-row md:items-center gap-y-0.5 md:gap-y-0 md:gap-x-6">
 
-                            <a class="py-2 md:py-0 flex items-center font-medium text-sm {{ request()->routeIs('dashboard') ? 'text-blue-600 focus:outline-none focus:text-blue-600 dark:text-blue-500 dark:focus:text-blue-500' : 'text-gray-800 hover:text-gray-500 focus:outline-none focus:text-gray-500 dark:text-neutral-200 dark:hover:text-neutral-500 dark:focus:text-neutral-500' }}"
+                            <a class="py-2 md:py-0 flex items-center font-medium text-md {{ request()->routeIs('dashboard') ? 'text-blue-600 focus:outline-none focus:text-blue-600 dark:text-blue-500 dark:focus:text-blue-500' : 'text-gray-800 hover:text-gray-500 focus:outline-none focus:text-gray-500 dark:text-neutral-200 dark:hover:text-neutral-500 dark:focus:text-neutral-500' }}"
                                 href="{{ route('dashboard') }}" aria-current="page">
                                 <svg class="shrink-0 size-4 me-3 md:me-2 block md:hidden"
                                     xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -117,7 +117,7 @@
                                 Dashboard
                             </a>
 
-                            <a class="py-2 md:py-0 flex items-center font-medium text-sm {{ request()->routeIs('goods') ? 'text-blue-600 focus:outline-none focus:text-blue-600 dark:text-blue-500 dark:focus:text-blue-500' : 'text-gray-800 hover:text-gray-500 focus:outline-none focus:text-gray-500 dark:text-neutral-200 dark:hover:text-neutral-500 dark:focus:text-neutral-500' }}"
+                            <a class="py-2 md:py-0 flex items-center font-medium text-md {{ request()->routeIs('goods') ? 'text-blue-600 focus:outline-none focus:text-blue-600 dark:text-blue-500 dark:focus:text-blue-500' : 'text-gray-800 hover:text-gray-500 focus:outline-none focus:text-gray-500 dark:text-neutral-200 dark:hover:text-neutral-500 dark:focus:text-neutral-500' }}"
                                 href="{{ route('goods') }}" aria-current="page">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor"
@@ -128,7 +128,7 @@
                                 Daftar Barang
                             </a>
 
-                            <a class="relative py-2 md:py-0 flex items-center font-medium text-sm {{ request()->routeIs('attachments') ? 'text-blue-600 focus:outline-none focus:text-blue-600 dark:text-blue-500 dark:focus:text-blue-500' : 'text-gray-800 hover:text-gray-500 focus:outline-none focus:text-gray-500 dark:text-neutral-200 dark:hover:text-neutral-500 dark:focus:text-neutral-500' }}"
+                            <a class="relative py-2 md:py-0 flex items-center font-medium text-md {{ request()->routeIs('attachments') ? 'text-blue-600 focus:outline-none focus:text-blue-600 dark:text-blue-500 dark:focus:text-blue-500' : 'text-gray-800 hover:text-gray-500 focus:outline-none focus:text-gray-500 dark:text-neutral-200 dark:hover:text-neutral-500 dark:focus:text-neutral-500' }}"
                                 href="{{ route('attachments') }}">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor"
@@ -139,7 +139,7 @@
                                 Attachments
                             </a>
 
-                            <a class="relative py-2 md:py-0 flex items-center font-medium text-sm {{ request()->routeIs('goods.flow') ? 'text-blue-600 focus:outline-none focus:text-blue-600 dark:text-blue-500 dark:focus:text-blue-500' : 'text-gray-800 hover:text-gray-500 focus:outline-none focus:text-gray-500 dark:text-neutral-200 dark:hover:text-neutral-500 dark:focus:text-neutral-500' }}"
+                            <a class="relative py-2 md:py-0 flex items-center font-medium text-md {{ request()->routeIs('goods.flow') ? 'text-blue-600 focus:outline-none focus:text-blue-600 dark:text-blue-500 dark:focus:text-blue-500' : 'text-gray-800 hover:text-gray-500 focus:outline-none focus:text-gray-500 dark:text-neutral-200 dark:hover:text-neutral-500 dark:focus:text-neutral-500' }}"
                                 href="{{ route('goods.flow') }}">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor"
@@ -151,7 +151,7 @@
                                 Alur Keluar Masuk Barang
                             </a>
 
-                            <a class="py-2 md:py-0 flex items-center font-medium text-sm {{ request()->routeIs('user.index') ? 'text-blue-600 focus:outline-none focus:text-blue-600 dark:text-blue-500 dark:focus:text-blue-500' : 'text-gray-800 hover:text-gray-500 focus:outline-none focus:text-gray-500 dark:text-neutral-200 dark:hover:text-neutral-500 dark:focus:text-neutral-500' }}"
+                            <a class="py-2 md:py-0 flex items-center font-medium text-md {{ request()->routeIs('user.index') ? 'text-blue-600 focus:outline-none focus:text-blue-600 dark:text-blue-500 dark:focus:text-blue-500' : 'text-gray-800 hover:text-gray-500 focus:outline-none focus:text-gray-500 dark:text-neutral-200 dark:hover:text-neutral-500 dark:focus:text-neutral-500' }}"
                                 href="{{ route('user.index') }}" aria-current="page">
                                 <svg class="shrink-0 size-4 me-3 md:me-2 block md:hidden"
                                     xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"

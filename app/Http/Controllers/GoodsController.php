@@ -260,14 +260,16 @@ class GoodsController extends Controller
                 'stock' => $request->input('stock', 0),
             ]);
         } else {
-            if (Place::where('name', 'no placement')->get() == null) {
-                Place::create([
+            if (Place::where('name', 'no placement')->get()->isEmpty()) {
+                $place = Place::create([
                     'name' => 'no placement'
                 ]);
+            } else {
+                $place = Place::where('name', 'no placement')->first();
             }
             Placement::create([
                 'goods_id' => $goods->id,
-                'place_id' => Place::where('name', 'no placement')->first()->id,
+                'place_id' => $place->id,
             ]);
         }
 
@@ -508,7 +510,6 @@ class GoodsController extends Controller
         }
         return redirect()->back()->with('failed', 'Failed update image product.');
     }
-
     /**
      * Fungsi untuk mengompres gambar menggunakan GD Library
      */
@@ -589,14 +590,14 @@ class GoodsController extends Controller
         }
         if (request()->input('increase_stock') != 0 && request()->input('new_stock') == 0) {
             $getPlacementStock = $getPlacement->stock;
-            $getPlacementStock = $getPlacementStock + request()->input('increase_stock');
+            $newPlacementStock = $getPlacementStock + request()->input('increase_stock');
             $getPlacement->update([
-                'stock' => $getPlacementStock,
+                'stock' => $newPlacementStock,
             ]);
             $getTotalStockProduct = Goods::find($getPlacement->goods_id)->total_stock;
-            $getTotalStockProduct = $getTotalStockProduct + request()->input('increase_stock');
+            $newTotalStockProduct = $getTotalStockProduct + request()->input('increase_stock');
             Goods::find($getPlacement->goods_id)->update([
-                'total_stock' => $getTotalStockProduct,
+                'total_stock' => $newTotalStockProduct,
             ]);
 
             return redirect()->back()->with('success', 'Success update stock barang.');

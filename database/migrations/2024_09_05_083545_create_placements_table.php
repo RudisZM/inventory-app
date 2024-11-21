@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('area_id')->nullable();
             $table->foreignId('rak_id')->nullable();
             $table->foreignId('shap_id')->nullable();
-            $table->integer('stock')->default(0);
+            $table->float('stock')->default(0);
             $table->timestamps();
         });
     }

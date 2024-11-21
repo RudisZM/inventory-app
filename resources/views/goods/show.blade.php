@@ -1280,13 +1280,14 @@
                                         <div class="w-full flex justify-between items-center gap-x-3">
                                             <div>
                                                 <span class="block font-medium text-sm text-gray-800 dark:text-white">
-                                                    increase stock
+                                                    Increase Stock
                                                 </span>
                                                 <span class="block text-xs text-gray-500 dark:text-neutral-400">
-                                                    this form will increase old stock
+                                                    This form will increase old stock
                                                 </span>
                                             </div>
                                             <div class="flex items-center gap-x-1.5">
+                                                <!-- Button Decrease -->
                                                 <button type="button"
                                                     class="size-6 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                                                     tabindex="-1" aria-label="Decrease"
@@ -1298,11 +1299,16 @@
                                                         <path d="M5 12h14"></path>
                                                     </svg>
                                                 </button>
+
+                                                <!-- Input Field -->
                                                 <input
                                                     class="p-0 w-16 bg-transparent border-0 text-gray-800 text-center focus:ring-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none dark:text-white"
                                                     name="increase_stock" style="-moz-appearance: textfield;"
-                                                    type="number" aria-roledescription="Number field" value="0"
+                                                    type="number" step="0.5" min="0"
+                                                    aria-roledescription="Number field" value="0.00"
                                                     data-hs-input-number-input="">
+
+                                                <!-- Button Increase -->
                                                 <button type="button"
                                                     class="size-6 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                                                     tabindex="-1" aria-label="Increase"
@@ -1318,6 +1324,7 @@
                                             </div>
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
                         </x-modal>

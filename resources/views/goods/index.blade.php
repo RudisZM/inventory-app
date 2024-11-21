@@ -1173,12 +1173,12 @@
                                                 <div class="px-6 py-2">
                                                     <span class="text-sm text-gray-500 dark:text-neutral-500">
                                                         @if ($good->import_placement)
-                                                            {{ $good->import_placement != 'null' || $good->import_placement != 'null' ? $good->import_placement : '-' }}
+                                                            {{ $good->import_placement != 'null' || $good->import_placement != 'null' ? '@' . $good->import_placement : '-' }}
                                                         @else
                                                             @foreach ($good->placement as $placement)
-                                                                {{ $placement->place ? $placement->place->name : '-' }}
+                                                                {{ $placement->place ? '@' . $placement->place->name : '-' }}
                                                                 @php
-                                                                    if ($loop->iteration == 1) {
+                                                                    if ($loop->iteration == 2) {
                                                                         break;
                                                                     }
                                                                 @endphp

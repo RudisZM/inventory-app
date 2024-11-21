@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->string('packaging_image')->nullable();
             $table->string('brand')->nullable();
-            $table->string('total_stock')->nullable();
+            $table->float('total_stock')->nullable();
             $table->boolean('is_for_sale')->default(true);
             $table->boolean('is_imported')->default(false);
             $table->string('import_placement')->nullable();
