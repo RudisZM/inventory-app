@@ -40,10 +40,25 @@ class FlowOfGoods extends Model
     }
     public function scopeFilter(Builder $query): void
     {
+
+        // ===== Filter Berdasarkan Nama Barang =====
+        if (request('search') == '') {
+            session()->forget('search');
+        }
+        if (request('search')) {
+            session()->put('search', request('search'));
+        }
+
+        if (session()->has('search')) {
+            $query->whereHas('goods', function ($query) {
+                $query->where('name', 'like', '%' . session()->get('search') . '%');
+            });
+        }
+
         // ===== Filter Berdasarkan Kategori Aliran Barang =====
         if (request('flow_category')) {
             if (request('flow_category') == 'all') {
-                session()->forget(['flow_category', 'flow_placement']);
+                session()->forget(['flow_category', 'flow_placement', 'search']);
             } else {
                 session()->put('flow_category', request('flow_category'));
             }

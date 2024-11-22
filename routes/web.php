@@ -6,6 +6,7 @@ use App\Http\Controllers\FlowOfGoodsController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\GoodsController;
 use App\Http\Controllers\GoodsFlowController;
+use App\Http\Controllers\GoodsShowController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\PlacementController;
 use App\Http\Controllers\UserController;
@@ -23,7 +24,7 @@ Route::get('/', [DashboardController::class, 'index'])->name('dashboard')->middl
 
 // ##GOODS - GET
 Route::get('/daftar-barang', [GoodsController::class, 'index'])->name('goods')->middleware('auth');
-Route::get('/barang/show/{id}', [GoodsController::class, 'goodsShow'])->name('goods.show')->middleware('auth');
+Route::get('/barang/show/{id}', [GoodsShowController::class, 'goodsShow'])->name('goods.show')->middleware('auth');
 Route::get('/place/{id}', [GoodsController::class, 'getArea'])->name('place')->middleware('auth');
 Route::get('/area/{id}', [GoodsController::class, 'getRak'])->name('area')->middleware('auth');
 Route::get('/rak/{id}', [GoodsController::class, 'getShap'])->name('rak')->middleware('auth');
@@ -34,7 +35,6 @@ Route::post('/barang-update-price/{id}', [GoodsController::class, 'updatePrice']
 Route::post('/barang-update-location/{id}', [GoodsController::class, 'updateLocation'])->name('goods.update.location')->middleware('auth');
 Route::post('/barang-update-location-asset/{id}', [GoodsController::class, 'updateLocationAsset'])->name('goods.update.location.asset')->middleware('auth');
 Route::post('/barang-add-new-location/{id}', [GoodsController::class, 'addNewLocation'])->name('goods.add.new.location')->middleware('auth');
-Route::post('/barang-update-location-image/{id}', [GoodsController::class, 'updateLocationImage'])->name('goods.update.location.image')->middleware('auth');
 Route::post('/barang-update-location-stock/{id}', [GoodsController::class, 'updateLocationStock'])->name('goods.update.location.stock')->middleware('auth');
 Route::post('/barang-update-stock-asset/{id}', [GoodsController::class, 'updateStockAsset'])->name('goods.update.stock.asset')->middleware('auth');
 Route::post('/barang-update-image/{id}', [GoodsController::class, 'updateImage'])->name('goods.update.image')->middleware('auth');

@@ -66,51 +66,6 @@ class GoodsController extends Controller
         // Return view dengan data
         return view('goods.index', compact('goods', 'categories', 'places', 'placements'));
     }
-    public function goodsShow($id)
-    {
-        // Retrieve goods and related relationships (check if $goods is found)
-        $goods = Goods::with(['goodsCategory', 'tag', 'placement'])->find($id);
-
-        // Check if goods exist
-        if (!$goods) {
-            return redirect()->route('goods.index')->with('error', 'Goods not found.');
-        }
-
-        $places = Place::all();
-        $placements = Placement::with(['place', 'area', 'rak', 'shap'])
-            ->where('goods_id', $goods->id)
-            ->orderByDesc('id')
-            ->get();
-        $attachments = Attachment::where('is_connect', false)
-            ->orderByDesc('id')
-            ->get();
-        $categories = GoodsCategory::all();
-        $assets = Asset::where('goods_id', $goods->id)
-            ->orderByDesc('id')
-            ->get();
-        $flowOfGoods = FlowOfGoods::where('goods_id', $goods->id)
-            ->orderByDesc('id')
-            ->get();
-
-        // Initialize total stocks
-        $totalPlacementStock = 0;
-        $totalAssetStock = Asset::where('goods_id', $goods->id)->sum('stock'); // Calculate total asset stock once
-
-        // If there are placements, calculate totalPlacementStock
-        foreach ($placements as $placement) {
-            $totalPlacementStock += $placement->stock;
-        }
-
-        // Calculate excess stock
-        $goodsExcessStock = $goods->total_stock - $totalPlacementStock - $totalAssetStock;
-
-        // Get all outbound types
-        $outboundTypes = OutboundType::all();
-
-        // Return the view with necessary data
-        return view('goods.show', compact('goods', 'places', 'placements', 'attachments', 'categories', 'assets', 'flowOfGoods', 'goodsExcessStock', 'outboundTypes'));
-    }
-
     public function getArea($id)
     {
         $area = Area::where('place_id', $id)->get();
@@ -427,150 +382,62 @@ class GoodsController extends Controller
     }
     public function updateImage(Request $request, $id)
     {
-        $getGoods = Goods::find($id);
+        $getGoods = Goods::findOrFail($id); // Pastikan ID valid
+        $type = $request->input('type');
         $filesystem = new Filesystem;
 
-        if ($request->input('type') == 'goods') {
-            $filePath = public_path('images/' . $getGoods->image);
+        if ($type === 'goods' || $type === 'packaging') {
+            $imageField = $type === 'goods' ? 'image' : 'packaging_image';
+            $oldImage = $getGoods->$imageField;
 
-            if ($filesystem->exists($filePath)) {
-                if ($getGoods->image != 'no-image.png') {
+            // Hapus file lama jika bukan "no-image.png"
+            if ($oldImage && $oldImage !== 'no-image.png') {
+                $filePath = public_path('images/' . $oldImage);
+                if ($filesystem->exists($filePath)) {
                     $filesystem->delete($filePath);
                 }
             }
 
+            // Upload gambar baru jika ada
             if ($request->file('update_image')) {
                 $image = $request->file('update_image');
-                $new_name_img = rand() . '.' . $image->getClientOriginalExtension();
+                $newName = rand() . '.' . $image->getClientOriginalExtension();
 
-                // Kompresi gambar menggunakan GD
-                $this->compressImage($image->getRealPath(), public_path('images/' . $new_name_img), 75);
+                // Pindahkan file ke folder "images"
+                $image->move(public_path('images'), $newName);
 
-                $request->request->add(['image' => $new_name_img]);
+                // Simpan nama file baru
+                $getGoods->$imageField = $newName;
             } else {
-                $new_name_img = 'no-image.png';
+                // Jika tidak ada gambar baru, gunakan "no-image.png"
+                $getGoods->$imageField = 'no-image.png';
             }
 
-            $getGoods->image = $new_name_img;
             $getGoods->is_imported = false;
-            $getGoods->update();
+            $getGoods->save();
 
-            return redirect()->back()->with('success', 'Success update image product.');
-        } elseif ($request->input('type') == 'packaging') {
-            $filePath = public_path('images/' . $getGoods->packaging_image);
+            return redirect()->back()->with('success', 'Image updated successfully.');
+        } elseif ($type === 'goods_delete' || $type === 'packaging_delete') {
+            $imageField = $type === 'goods_delete' ? 'image' : 'packaging_image';
+            $oldImage = $getGoods->$imageField;
 
-            if ($filesystem->exists($filePath)) {
-                if ($getGoods->packaging_image != 'no-image.png') {
+            // Hapus gambar jika bukan "no-image.png"
+            if ($oldImage && $oldImage !== 'no-image.png') {
+                $filePath = public_path('images/' . $oldImage);
+                if ($filesystem->exists($filePath)) {
                     $filesystem->delete($filePath);
                 }
             }
 
-            if ($request->file('update_image')) {
-                $image = $request->file('update_image');
-                $new_name_img = rand() . '.' . $image->getClientOriginalExtension();
-
-                // Kompresi gambar menggunakan GD
-                $this->compressImage($image->getRealPath(), public_path('images/' . $new_name_img), 75);
-
-                $request->request->add(['image' => $new_name_img]);
-            } else {
-                $new_name_img = 'no-image.png';
-            }
-
-            $getGoods->packaging_image = $new_name_img;
+            // Reset ke "no-image.png"
+            $getGoods->$imageField = 'no-image.png';
             $getGoods->is_imported = false;
-            $getGoods->update();
+            $getGoods->save();
 
-            return redirect()->back()->with('success', 'Success update image product.');
-        }
-        if ($request->input('type') == 'goods_delete') {
-            $filePath = public_path('images/' . $getGoods->image);
-
-            if ($filesystem->exists($filePath)) {
-                if ($getGoods->image != 'no-image.png') {
-                    $filesystem->delete($filePath);
-                }
-            }
-            $getGoods->image = 'no-image.png';
-            $getGoods->is_imported = false;
-            $getGoods->update();
-            return redirect()->back()->with('success', 'Success update image product.');
-        } elseif ($request->input('type') == 'packaging_delete') {
-            $filePath = public_path('images/' . $getGoods->packaging_image);
-
-            if ($filesystem->exists($filePath)) {
-                if ($getGoods->packaging_image != 'no-image.png') {
-                    $filesystem->delete($filePath);
-                }
-            }
-            $getGoods->packaging_image = 'no-image.png';
-            $getGoods->is_imported = false;
-            $getGoods->update();
-            return redirect()->back()->with('success', 'Success update image product.');
-        }
-        return redirect()->back()->with('failed', 'Failed update image product.');
-    }
-    /**
-     * Fungsi untuk mengompres gambar menggunakan GD Library
-     */
-    private function compressImage($sourcePath, $destinationPath, $quality)
-    {
-        // Dapatkan tipe gambar
-        $info = getimagesize($sourcePath);
-        $mime = $info['mime'];
-
-        // Load gambar berdasarkan tipe
-        switch ($mime) {
-            case 'image/jpeg':
-                $image = imagecreatefromjpeg($sourcePath);
-                break;
-            case 'image/png':
-                $image = imagecreatefrompng($sourcePath);
-                break;
-            case 'image/gif':
-                $image = imagecreatefromgif($sourcePath);
-                break;
-            default:
-                throw new \Exception('Unsupported image type.');
+            return redirect()->back()->with('success', 'Image deleted successfully.');
         }
 
-        // Simpan gambar ke destinasi dengan kualitas tertentu
-        if ($mime == 'image/png') {
-            // Kompres untuk PNG (kualitas 0-9)
-            $compression = (int) round((100 - $quality) / 10);
-            imagepng($image, $destinationPath, $compression);
-        } else {
-            // Kompres untuk JPEG dan lainnya (kualitas 0-100)
-            imagejpeg($image, $destinationPath, $quality);
-        }
-
-        // Bersihkan resource GD
-        imagedestroy($image);
-    }
-    public function updateLocationImage(Request $request, $id)
-    {
-        $getPlacement = Placement::find($id);
-        $filesystem = new Filesystem;
-
-        $filePath = public_path('images/' . $getPlacement->image);
-
-        if ($filesystem->exists($filePath)) {
-            if ($getPlacement->image != 'no-image.png') {
-                $filesystem->delete($filePath);
-            }
-        }
-
-        if (request()->file('update_image')) {
-            $image = $request->file('update_image');
-            $new_name_img = rand() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('images'), $new_name_img);
-            $request->request->add(['image' => $new_name_img]);
-        } else {
-            $new_name_img = 'no-image.png';
-        }
-        $getPlacement->image = $new_name_img;
-        $getPlacement->save();
-        return redirect()->back()->with('success', 'Success update image product.');
+        return redirect()->back()->with('failed', 'Invalid update type.');
     }
     public function updateLocationStock($id)
     {
